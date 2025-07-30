@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reglas para usuarios
+    match /usuarios/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Reglas para sugerencias
+    match /sugerencias/{sugerenciaId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+    
+    // Reglas para documentos de biblioteca
+    match /documentos/{documentoId} {
+      allow read: if true; // Todos pueden leer documentos
+      allow write: if request.auth != null && request.auth.token.esAdmin == true;
+    }
+    
+    // Reglas para eventos
+    match /eventos/{eventoId} {
+      allow read: if true; // Todos pueden leer eventos
+      allow write: if request.auth != null && request.auth.token.esAdmin == true;
+    }
+    
+    // Reglas para rankings de minijuegos
+    match /rankings/{rankingId} {
+      allow read: if true; // Todos pueden leer rankings (para ver el top global)
+      allow create: if request.auth != null && 
+                      request.resource.data.juego is string &&
+                      request.resource.data.puntuacion is int &&
+                      request.resource.data.puntuacion > 0 &&
+                      request.resource.data.puntuacion <= 10000 && // Límite máximo de puntuación
+                      request.resource.data.nombreUsuario is string &&
+                      request.resource.data.nombreUsuario.size() > 0 &&
+                      request.resource.data.nombreUsuario.size() <= 100 &&
+                      request.resource.data.emailUsuario is string &&
+                      request.resource.data.emailUsuario == request.auth.token.email &&
+                      request.resource.data.fecha is timestamp;
+      allow update, delete: if false; // No se permiten actualizaciones ni eliminaciones
+    }
+    
+    // Regla por defecto - denegar todo lo demás
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 

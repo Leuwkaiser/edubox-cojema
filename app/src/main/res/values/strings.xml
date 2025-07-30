@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">EduBox</string>
+    
+    <!-- Biblioteca Virtual -->
+    <string name="biblioteca_virtual">Biblioteca Virtual</string>
+    <string name="agregar_documento">Agregar Documento</string>
+    <string name="titulo_documento">Título del documento</string>
+    <string name="descripcion">Descripción</string>
+    <string name="asignatura">Asignatura</string>
+    <string name="grado">Grado</string>
+    <string name="enlace_documento">Enlace del documento</string>
+    <string name="nombre_archivo">Nombre del archivo</string>
+    <string name="tipo_archivo">Tipo de archivo (opcional)</string>
+    <string name="agregar">Agregar</string>
+    <string name="abrir_enlace">Abrir enlace</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="filtros">Filtros</string>
+    <string name="todas">Todas</string>
+    <string name="todos">Todos</string>
+    <string name="no_documentos">No hay documentos disponibles</string>
+    <string name="error_cargar">Error al cargar documentos</string>
+    <string name="error_agregar">Error al agregar documento</string>
+    <string name="error_eliminar">Error al eliminar documento</string>
+    <string name="reintentar">Reintentar</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="mas_opciones">Más opciones</string>
+    <string name="subido_por">Subido por</string>
+    <string name="info_enlaces">Información sobre enlaces</string>
+    <string name="enlace_externo">Enlace externo</string>
+    <string name="facebook_app_id">4038499686408751</string>
+    <string name="fb_login_protocol_scheme">fb4038499686408751</string>
+    <string name="facebook_client_token">613867f3459647e652a2ab505f080440</string>
+</resources>

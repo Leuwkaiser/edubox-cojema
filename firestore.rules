@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Regla simple para desarrollo - permite todo
+    // ESTO ES SOLO PARA DESARROLLO, NO USAR EN PRODUCCIÓN
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    // Reglas para eventos
+    match /eventos/{eventoId} {
+      allow read: if true; // Todos pueden leer eventos
+      allow write: if request.auth != null && request.auth.token.esAdmin == true; // Solo admins pueden escribir
+    }
+    // Reglas para rankings de minijuegos
+    match /rankings/{rankingId} {
+      allow read: if true; // Todos pueden leer rankings (para ver el top global)
+      allow create: if request.auth != null && 
+                      request.resource.data.juego is string &&
+                      request.resource.data.puntuacion is int &&
+                      request.resource.data.nombreUsuario is string &&
+                      request.resource.data.emailUsuario is string &&
+                      request.resource.data.emailUsuario == request.auth.token.email; // Solo puede crear con su propio email
+      allow update, delete: if false; // No se permiten actualizaciones ni eliminaciones (solo crear nuevas puntuaciones)
+    }
+    match /sugerencias/{sugerenciaId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+  }
+} 

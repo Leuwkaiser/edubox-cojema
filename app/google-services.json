@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "484441940977",
+    "project_id": "edubox-f5e3c",
+    "storage_bucket": "edubox-f5e3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484441940977:android:9b79a261a6a483dcab1a50",
+        "android_client_info": {
+          "package_name": "com.example.buzondesugerenciascojema"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484441940977-i13p8a4u54b0q31hrivi366dq6go8nff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdrtIVmMMZ0h3iB9Rlr3cYTTuNISyXpns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484441940977-i13p8a4u54b0q31hrivi366dq6go8nff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
