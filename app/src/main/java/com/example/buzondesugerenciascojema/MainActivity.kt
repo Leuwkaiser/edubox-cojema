@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
                     // Configurar callback para navegación después de autenticación
                     onGoogleSignInSuccess = { route ->
                         try {
-                            navController.navigate(route) {
+                            navController?.navigate(route) {
                                 popUpTo("splash") { inclusive = true }
                             }
                         } catch (e: Exception) {
@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                     }
                     
                     NavGraph(
-                        navController = navController,
+                        navController = navController!!,
                         authService = authService,
                         usuarioManager = usuarioManager,
                         sugerenciaService = sugerenciaService,
