@@ -242,7 +242,7 @@ fun SubirDocumentoScreen(
                                                     "gamepad" -> R.drawable.gamepad
                                                     "calendario" -> R.drawable.calendario
                                                     "buzon" -> R.drawable.buzon
-                                                    "snake" -> R.drawable.snake
+                                                    "snake" -> R.drawable.snakenew
                                                     "logro" -> R.drawable.logro
                                                     else -> R.drawable.libro
                                                 }

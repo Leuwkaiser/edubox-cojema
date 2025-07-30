@@ -76,7 +76,7 @@ fun MinijuegosScreen(
             id = "snake",
             nombre = "Snake",
             descripcion = "Controla la serpiente y come para crecer. ¡No te choques contigo misma!",
-            imagenResId = R.drawable.snake,
+            imagenResId = R.drawable.snakenew,
             ruta = "snake"
         ),
         Minijuego(
