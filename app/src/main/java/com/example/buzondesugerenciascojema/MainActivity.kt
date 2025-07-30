@@ -33,7 +33,8 @@ import com.example.buzondesugerenciascojema.data.Usuario
 class MainActivity : ComponentActivity() {
     private lateinit var callbackManager: CallbackManager
     private lateinit var googleAuthService: GoogleAuthService
-    private lateinit var navController: androidx.navigation.NavHostController
+    private var navController: androidx.navigation.NavHostController? = null
+    private var onGoogleSignInSuccess: ((String) -> Unit)? = null
     
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -100,6 +101,19 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     navController = rememberNavController()
+                    this@MainActivity.navController = navController
+                    
+                    // Configurar callback para navegación después de autenticación
+                    onGoogleSignInSuccess = { route ->
+                        try {
+                            navController.navigate(route) {
+                                popUpTo("splash") { inclusive = true }
+                            }
+                        } catch (e: Exception) {
+                            Log.e("GOOGLE_SIGN_IN", "Error en navegación: ${e.message}")
+                        }
+                    }
+                    
                     NavGraph(
                         navController = navController,
                         authService = authService,
@@ -159,6 +173,16 @@ class MainActivity : ComponentActivity() {
     fun startGoogleSignIn() {
         try {
             Log.d("GOOGLE_SIGN_IN", "Iniciando proceso de Google Sign-In")
+            
+            // Limpiar estado previo de Google Sign-In
+            try {
+                val signInClient = googleAuthService.getGoogleSignInClient(this)
+                signInClient.signOut()
+                Log.d("GOOGLE_SIGN_IN", "Estado previo de Google Sign-In limpiado")
+            } catch (e: Exception) {
+                Log.e("GOOGLE_SIGN_IN", "Error al limpiar estado previo: ${e.message}")
+            }
+            
             val signInClient = googleAuthService.getGoogleSignInClient(this)
             googleSignInLauncher.launch(signInClient.signInIntent)
         } catch (e: Exception) {
@@ -186,23 +210,13 @@ class MainActivity : ComponentActivity() {
                             Log.e("GOOGLE_SIGN_IN", "Error al limpiar Google Sign-In: ${e.message}")
                         }
                         
-                        // Limpiar la pantalla de login antes de navegar
-                        try {
-                            navController.popBackStack("login", inclusive = true)
-                        } catch (e: Exception) {
-                            Log.e("GOOGLE_SIGN_IN", "Error al limpiar navegación: ${e.message}")
-                        }
-                        
+                        // Usar el callback para navegación segura
                         if (user.grupo.isBlank() || user.grado.isBlank()) {
                             Log.d("GOOGLE_SIGN_IN", "Usuario nuevo, navegando a complete_profile")
-                            navController.navigate("complete_profile") {
-                                popUpTo("splash") { inclusive = true }
-                            }
+                            onGoogleSignInSuccess?.invoke("complete_profile")
                         } else {
                             Log.d("GOOGLE_SIGN_IN", "Usuario existente, navegando a home")
-                            navController.navigate("home") {
-                                popUpTo("splash") { inclusive = true }
-                            }
+                            onGoogleSignInSuccess?.invoke("home")
                         }
                     },
                     onFailure = { exception ->

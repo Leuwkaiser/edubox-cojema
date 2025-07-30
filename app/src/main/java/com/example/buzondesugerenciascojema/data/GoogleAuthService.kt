@@ -20,6 +20,7 @@ class GoogleAuthService {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("484441940977-i13p8a4u54b0q31hrivi366dq6go8nff.apps.googleusercontent.com")
             .requestEmail()
+            .requestProfile()
             .build()
         
         return GoogleSignIn.getClient(context, gso)
@@ -150,7 +151,19 @@ class GoogleAuthService {
     }
     
     fun signOut() {
-        auth.signOut()
+        try {
+            auth.signOut()
+            println("GoogleAuthService: Usuario desautenticado de Firebase")
+        } catch (e: Exception) {
+            println("GoogleAuthService: Error al desautenticar: ${e.message}")
+        }
+    }
+    
+    fun isUserSignedIn(): Boolean {
+        val currentUser = auth.currentUser
+        val isSignedIn = currentUser != null
+        println("GoogleAuthService: Usuario autenticado: $isSignedIn")
+        return isSignedIn
     }
     
     fun getCurrentUser(): Usuario? {
